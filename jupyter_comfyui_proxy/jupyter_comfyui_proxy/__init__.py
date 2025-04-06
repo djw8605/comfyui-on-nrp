@@ -16,7 +16,7 @@ def setup_comfyui_server():
         #   - $PYTHON
         #   - $COMFYUI_PATH
         #   - PATH=$PATH:$COMFYUI_PATH
-        PYTHON = os.getenv("PYTHON", "python3.10")
+        PYTHON = os.getenv("PYTHON", "python3")
         COMFYUI_PATH = os.getenv("COMFYUI_PATH", os.path.join("home", "workspace", "ComfyUI"))
         logging.info("PYTHON: %s, COMFYUI_PATH: %s", PYTHON, COMFYUI_PATH)
         return [
