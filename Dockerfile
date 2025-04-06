@@ -2,7 +2,7 @@
 FROM quay.io/jupyter/pytorch-notebook:latest
 
 
-#USER root
+USER root
 
 ENV COMFYUI_PATH=/opt/ComfyUI
 ENV PATH="$PATH:$COMFYUI_PATH"
@@ -18,4 +18,4 @@ ADD jupyter_comfyui_proxy /home/extensions/jupyter_comfyui_proxy
 RUN pip install uv /home/extensions/jupyter_comfyui_proxy/. && \
   uv pip install --system -r $COMFYUI_PATH/requirements.txt
 
-#USER $NB_USER
+USER $NB_USER
