@@ -1,5 +1,5 @@
 #FROM gitlab-registry.nrp-nautilus.io/nrp/scientific-images/python:tensorflow-cuda-v1.5.0
-FROM quay.io/jupyter/pytorch-notebook:latest
+FROM quay.io/jupyter/pytorch-notebook:cuda12-latest
 
 
 USER root
