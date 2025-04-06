@@ -12,6 +12,6 @@ ENV PATH="$PATH:$COMFYUI_PATH"
 
 ADD jupyter_comfyui_proxy /home/extensions/jupyter_comfyui_proxy
 RUN pip install uv /home/extensions/jupyter_comfyui_proxy/. && \
-  uv pip install -r /opt/comfyui/requirements.txt
+  uv --system pip install -r /opt/comfyui/requirements.txt
 
 USER $NB_USER
