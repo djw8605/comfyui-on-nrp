@@ -32,9 +32,10 @@ def setup_comfyui_server():
         except Exception:
             return default
 
+    #"timeout": _get_timeout(),
     return {
         "command": _get_cmd,
-        "timeout": _get_timeout(),
+        "timeout": 600,
         "environment": _get_env,
         "new_browser_tab": True,
         "launcher_entry": {"title": "ComfyUI", "icon_path": _get_icon_path()},
