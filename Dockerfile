@@ -1,4 +1,6 @@
-FROM gitlab-registry.nrp-nautilus.io/nrp/scientific-images/python:tensorflow-cuda-v1.5.0
+#FROM gitlab-registry.nrp-nautilus.io/nrp/scientific-images/python:tensorflow-cuda-v1.5.0
+FROM quay.io/jupyter/pytorch-notebook:latest
+
 
 USER root
 
@@ -9,6 +11,7 @@ ENV COMFYUI_PATH=/opt/comfyui/ComfyUI
 ENV PATH="$PATH:$COMFYUI_PATH"
 
 ADD jupyter_comfyui_proxy /home/extensions/jupyter_comfyui_proxy
-RUN pip install uv /home/extensions/jupyter_comfyui_proxy/.
+RUN pip install uv /home/extensions/jupyter_comfyui_proxy/. && \
+  uv pip install -r /opt/comfyui/ComfyUI/requirements.txt
 
 USER $NB_USER
