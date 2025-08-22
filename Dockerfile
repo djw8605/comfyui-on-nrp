@@ -18,4 +18,7 @@ ADD jupyter_comfyui_proxy /home/extensions/jupyter_comfyui_proxy
 RUN pip install uv /home/extensions/jupyter_comfyui_proxy/. && \
   uv pip install --system -r $COMFYUI_PATH/requirements.txt
 
+# Install comfy ui manager
+RUN git clone https://github.com/ltdrdata/ComfyUI-Manager $COMFYUI_PATH/custom_nodes/comfyui-manager
+
 USER $NB_USER
