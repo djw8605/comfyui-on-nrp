@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+LOGFILE="/home/$NB_USER/comfyui_install_script.log"
+exec &> "$LOGFILE"
+
 COMFYUI_HOME="/home/$NB_USER/ComfyUI"
 
 
@@ -10,6 +13,8 @@ else
     echo "Installing ComfyUI to $COMFYUI_HOME..."
     sudo -u $NB_USER git clone https://github.com/comfyanonymous/ComfyUI.git "$COMFYUI_HOME"
     sudo -u $NB_USER git clone https://github.com/ltdrdata/ComfyUI-Manager "$COMFYUI_HOME/custom_nodes/comfyui-manager"
-    sudo -u $NB_USER uv pip install --system -r "$COMFYUI_HOME/requirements.txt"
     sudo chown -R $NB_USER:$NB_USER "$COMFYUI_HOME"
 fi
+
+# Install packages again to ensure all are installed correctly
+sudo -u $NB_USER uv pip install --system -r "$COMFYUI_HOME/requirements.txt"
