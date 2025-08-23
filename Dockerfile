@@ -4,6 +4,10 @@ FROM quay.io/jupyter/pytorch-notebook:cuda12-latest
 
 USER root
 
+ENV COMFYUI_PATH=/home/$NB_USER/ComfyUI
+ENV PATH="$PATH:$COMFYUI_PATH"
+ENV COMFYUI_SESSION_TIMEOUT=600
+
 ADD jupyter_comfyui_proxy /home/extensions/jupyter_comfyui_proxy
 RUN pip install uv /home/extensions/jupyter_comfyui_proxy/.
 

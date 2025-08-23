@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-COMFYUI_HOME="$HOME/ComfyUI"
+COMFYUI_HOME="/home/jovyan/ComfyUI"
 
 
 if [ -d "$COMFYUI_HOME" ]; then
