@@ -2,7 +2,7 @@
 set -e
 
 LOGFILE="/home/$NB_USER/comfyui_install_script.log"
-exec &> "$LOGFILE"
+exec > >(tee -a "$LOGFILE") 2>&1
 
 COMFYUI_HOME="/home/$NB_USER/ComfyUI"
 
