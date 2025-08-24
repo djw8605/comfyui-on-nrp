@@ -17,4 +17,5 @@ else
 fi
 
 # Install packages again to ensure all are installed correctly
+sudo -u $NB_USER pip install uv
 sudo -u $NB_USER uv pip install --system -r "$COMFYUI_HOME/requirements.txt"
