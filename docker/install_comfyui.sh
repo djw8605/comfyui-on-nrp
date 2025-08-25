@@ -1,10 +1,7 @@
 #!/bin/bash
 set -ex
 
-# Change user to NB_USER if not already
-if [ "$(id -u)" -ne "$(id -u $NB_USER)" ]; then
-    exec sudo -E -u "$NB_USER" bash "$0" "$@"
-fi
+export NB_USER=${NB_USER:-"jovyan"}
 
 LOGFILE="/home/$NB_USER/comfyui_install_script.log"
 exec > >(tee -a "$LOGFILE") 2>&1
