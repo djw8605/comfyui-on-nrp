@@ -1,5 +1,10 @@
 #!/bin/bash
-set -e
+set -ex
+
+# Change user to NB_USER if not already
+if [ "$(id -u)" -ne "$(id -u $NB_USER)" ]; then
+    exec sudo -E -u "$NB_USER" bash "$0" "$@"
+fi
 
 LOGFILE="/home/$NB_USER/comfyui_install_script.log"
 exec > >(tee -a "$LOGFILE") 2>&1
@@ -11,9 +16,9 @@ if [ -d "$COMFYUI_HOME" ]; then
     echo "ComfyUI already installed at $COMFYUI_HOME. Skipping installation."
 else
     echo "Installing ComfyUI to $COMFYUI_HOME..."
-    sudo -u $NB_USER git clone https://github.com/comfyanonymous/ComfyUI.git "$COMFYUI_HOME"
-    sudo -u $NB_USER git clone https://github.com/ltdrdata/ComfyUI-Manager "$COMFYUI_HOME/custom_nodes/comfyui-manager"
-    sudo chown -R $NB_USER:$NB_USER "$COMFYUI_HOME"
+    git clone https://github.com/comfyanonymous/ComfyUI.git "$COMFYUI_HOME"
+    git clone https://github.com/ltdrdata/ComfyUI-Manager "$COMFYUI_HOME/custom_nodes/comfyui-manager"
+    chown -R $NB_USER:$NB_USER "$COMFYUI_HOME"
 fi
 
 # Find pip or pip3 location
@@ -42,7 +47,7 @@ elif [ -f "/usr/local/bin/uv" ]; then
     UV_CMD="/usr/local/bin/uv"
 else
     echo "uv not found. Installing uv..."
-    sudo -u $NB_USER "$PIP_CMD" install uv
+    "$PIP_CMD" install uv
     if command -v uv &>/dev/null; then
         UV_CMD=$(command -v uv)
     elif [ -f "/opt/conda/bin/uv" ]; then
@@ -59,4 +64,4 @@ export PATH="$(dirname "$UV_CMD"):$PATH"
 echo "Detected uv command at: $UV_CMD"
 
 # Install packages again to ensure all are installed correctly
-sudo -u $NB_USER "$UV_CMD" pip install --system -r "$COMFYUI_HOME/requirements.txt"
+"$UV_CMD" pip install --system -r "$COMFYUI_HOME/requirements.txt"
