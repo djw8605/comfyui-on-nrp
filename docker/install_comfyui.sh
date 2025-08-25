@@ -31,7 +31,32 @@ else
 fi
 
 export PATH="$(dirname "$PIP_CMD"):$PATH"
+echo "Detected pip command at: $PIP_CMD"
+
+# Find uv location
+if command -v uv &>/dev/null; then
+    UV_CMD=$(command -v uv)
+elif [ -f "/opt/conda/bin/uv" ]; then
+    UV_CMD="/opt/conda/bin/uv"
+elif [ -f "/usr/local/bin/uv" ]; then
+    UV_CMD="/usr/local/bin/uv"
+else
+    echo "uv not found. Installing uv..."
+    sudo -u $NB_USER "$PIP_CMD" install uv
+    if command -v uv &>/dev/null; then
+        UV_CMD=$(command -v uv)
+    elif [ -f "/opt/conda/bin/uv" ]; then
+        UV_CMD="/opt/conda/bin/uv"
+    elif [ -f "/usr/local/bin/uv" ]; then
+        UV_CMD="/usr/local/bin/uv"
+    else
+        echo "uv installation failed."
+        exit 1
+    fi
+fi
+
+export PATH="$(dirname "$UV_CMD"):$PATH"
+echo "Detected uv command at: $UV_CMD"
 
 # Install packages again to ensure all are installed correctly
-sudo -u $NB_USER "$PIP_CMD" install uv
-sudo -u $NB_USER uv pip install --system -r "$COMFYUI_HOME/requirements.txt"
+sudo -u $NB_USER "$UV_CMD" pip install --system -r "$COMFYUI_HOME/requirements.txt"
